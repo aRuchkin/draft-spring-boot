@@ -1,25 +1,35 @@
 package com.example.draftspringboot.service;
 
+import org.junit.Assert;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+@RunWith(SpringRunner.class)
 @SpringBootTest
 public class DraftServiceTest {
 
-    public final DraftService draftService;
+    @Mock
+    public DraftService draftService;
 
-    public DraftServiceTest(DraftService draftService) {
-        this.draftService = draftService;
+    @Autowired
+    public DraftService realDraftService;
+
+
+    @Test
+    public void testMockMethod() {
+        when(draftService.getSomeString()).thenReturn("MockSomeString");
+        Assert.assertEquals("MockSomeString", draftService.getSomeString());
     }
 
     @Test
-    public void test() {
-        DraftService mockDraftService = mock(DraftService.class);
-        when(mockDraftService.getSomeNumber()).thenReturn(4);
-        System.out.println(mockDraftService.getSomeNumber());
+    public void realRealMethod() {
+        Assert.assertEquals( "SomeString", realDraftService.getSomeString());
     }
 
 }

@@ -17,7 +17,7 @@ public class DraftService {
         return draftRepository.getById(id);
     }
 
-    public Integer getSomeNumber() {
-        return 7;
+    public String getSomeString() {
+        return "SomeString";
     }
 }
