@@ -1,9 +1,13 @@
 package com.example.draftspringboot.service;
 
-import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
+import org.junit.Test;
+import org.springframework.boot.test.context.SpringBootTest;
 
-class DraftServiceTest {
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
+@SpringBootTest
+public class DraftServiceTest {
 
     public final DraftService draftService;
 
@@ -13,7 +17,9 @@ class DraftServiceTest {
 
     @Test
     public void test() {
-        System.out.println((Mockito.when(draftService.getSomeNumber()).thenReturn(4)));
+        DraftService mockDraftService = mock(DraftService.class);
+        when(mockDraftService.getSomeNumber()).thenReturn(4);
+        System.out.println(mockDraftService.getSomeNumber());
     }
 
 }
