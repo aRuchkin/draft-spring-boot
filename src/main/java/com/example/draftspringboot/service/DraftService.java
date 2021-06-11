@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class DraftService {
 
-    public final DraftRepository draftRepository;
+    private final DraftRepository draftRepository;
 
     public DraftService(DraftRepository draftRepository) {
         this.draftRepository = draftRepository;

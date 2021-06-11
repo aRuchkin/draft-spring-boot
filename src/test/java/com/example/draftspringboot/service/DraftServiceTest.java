@@ -1,5 +1,7 @@
 package com.example.draftspringboot.service;
 
+import com.example.draftspringboot.domain.DraftEntity;
+import com.example.draftspringboot.repository.DraftRepository;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,6 +19,9 @@ public class DraftServiceTest {
     @Mock
     public DraftService draftService;
 
+    @Mock
+    private DraftRepository draftRepository;
+
     @Autowired
     public DraftService realDraftService;
 
@@ -28,8 +33,15 @@ public class DraftServiceTest {
     }
 
     @Test
-    public void realRealMethod() {
+    public void testRealMethod() {
         Assert.assertEquals( "SomeString", realDraftService.getSomeString());
+    }
+
+    @Test
+    public void getByIdTest() {
+        when(draftRepository.getById(1)).thenReturn(new DraftEntity(2, "TestName"));
+        DraftEntity draftEntity = realDraftService.getById(1);
+        System.out.println("test");
     }
 
 }
