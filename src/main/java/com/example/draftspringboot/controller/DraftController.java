@@ -8,6 +8,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @RestController
 public class DraftController {
 
@@ -21,9 +24,18 @@ public class DraftController {
     }
 
     @GetMapping("/{id}")
-    public DraftResponse get(@PathVariable Integer id) {
+    public DraftResponse getById(@PathVariable Integer id) {
         return toModel(draftService.getById(id));
     }
+
+    @GetMapping
+    public List<DraftResponse> getAll() {
+        return draftService.getAll()
+                .stream()
+                .map(this::toModel)
+                .collect(Collectors.toList());
+    }
+
 
     private DraftResponse toModel(DraftEntity draftEntity) {
         return modelMapper.map(draftEntity, DraftResponse.class);
