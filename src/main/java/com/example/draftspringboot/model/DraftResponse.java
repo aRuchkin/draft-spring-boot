@@ -1,6 +1,11 @@
 package com.example.draftspringboot.model;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
+@Schema(description = "Draft response model")
 public class DraftResponse {
+
+    @Schema(description = "Id", example = "15")
     private Integer id;
     private String name;
 
