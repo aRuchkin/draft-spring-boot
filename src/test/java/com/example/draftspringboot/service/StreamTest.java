@@ -3,6 +3,7 @@ package com.example.draftspringboot.service;
 import com.example.draftspringboot.model.DraftClassListOfString;
 import com.example.draftspringboot.model.Gender;
 import com.example.draftspringboot.model.Person;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -10,6 +11,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import static java.util.stream.Collectors.*;
 
@@ -59,15 +61,17 @@ public class StreamTest {
      * @return List of some persons
      */
     private List<Person> createSomePersonList() {
-        return Arrays.asList(
-                new Person(Gender.FEMALE, 25),
-                new Person(Gender.FEMALE, 45),
-                new Person(Gender.FEMALE, 18),
-                new Person(Gender.MALE, 32),
-                new Person(Gender.MALE, 38),
-                new Person(Gender.MALE, 78),
-                new Person(Gender.MALE, 82)
-        );
+        return IntStream.range(0, 10)
+                .mapToObj(o -> new Person(randomGender(), (int) Math.round(Math.random() * 100)))
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * @return random gender of person
+     */
+    private Gender randomGender() {
+        return Math.random() < 0.5
+                ? Gender.FEMALE : Gender.MALE;
     }
 
     /**
@@ -75,21 +79,17 @@ public class StreamTest {
      * (DraftClassListOfString is List of strings)
      */
     private List<DraftClassListOfString> createInputListForTransformationTest() {
-        return Arrays.asList(
-                new DraftClassListOfString(createListOfSomeStrings()),
-                new DraftClassListOfString(createListOfSomeStrings()),
-                new DraftClassListOfString(createListOfSomeStrings())
-        );
+        return IntStream.range(0, 3)
+                .mapToObj(o -> new DraftClassListOfString(createListOfSomeStrings()))
+                .collect(Collectors.toList());
     }
 
     /**
      * @return List of random strings
      */
     private List<String> createListOfSomeStrings() {
-        List<String> list = new ArrayList<>();
-        for (int i = 0; i < 3; i++) {
-            list.add(UUID.randomUUID().toString().replace("-", ""));
-        }
-        return list;
+        return IntStream.range(0, 3)
+                .mapToObj(o -> RandomStringUtils.randomAlphabetic(16))
+                .collect(Collectors.toList());
     }
 }

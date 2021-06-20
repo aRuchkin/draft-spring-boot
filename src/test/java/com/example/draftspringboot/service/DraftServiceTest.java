@@ -1,6 +1,7 @@
 package com.example.draftspringboot.service;
 
 import com.example.draftspringboot.domain.DraftEntity;
+import com.example.draftspringboot.model.DraftResponse;
 import com.example.draftspringboot.repository.DraftRepository;
 import org.junit.Assert;
 import org.junit.Test;
@@ -8,6 +9,7 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.mockito.Mockito.when;
@@ -19,7 +21,7 @@ public class DraftServiceTest {
     @Mock
     public DraftService draftService;
 
-    @Mock
+    @MockBean
     private DraftRepository draftRepository;
 
     @Autowired
@@ -39,9 +41,11 @@ public class DraftServiceTest {
 
     @Test
     public void getByIdTest() {
-        when(draftRepository.getById(1)).thenReturn(new DraftEntity(2, "TestName"));
-        DraftEntity draftEntity = realDraftService.getById(1);
-        System.out.println("test");
+        DraftEntity expectedDraftEntity = new DraftEntity(2, "TestName");
+        when(draftRepository.getById(1)).thenReturn(expectedDraftEntity);
+        DraftResponse draftEntity = realDraftService.getById(1);
+        Assert.assertEquals(expectedDraftEntity.getId(), draftEntity.getId());
+        Assert.assertEquals(expectedDraftEntity.getName(), draftEntity.getName());
     }
 
 }
