@@ -4,9 +4,11 @@ import com.example.draftspringboot.domain.DraftEntity;
 import com.example.draftspringboot.model.DraftResponse;
 import com.example.draftspringboot.repository.DraftRepository;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
@@ -26,14 +28,16 @@ public class DraftService {
         return toModel(draftRepository.getById(id));
     }
 
-    public List<DraftResponse> getAll() {
-        return draftRepository.findAll()
-                .stream()
-                .map(this::toModel)
-                .collect(Collectors.toList());
+    public Page<DraftResponse> getByPages(Integer index, Integer limit) {
+        // index of page can be null
+        // so we will give first (0th) page if index is not set
+        PageRequest pageRequest = PageRequest.of(index == null ? 0 : index, limit);
+        Page<DraftEntity> pageOfEntities = draftRepository.findAll(pageRequest);
+        return new PageImpl<>(pageOfEntities.stream().map(this::toModel).collect(Collectors.toList()),
+                pageRequest, pageOfEntities.getTotalElements());
     }
 
-    private DraftResponse toModel(DraftEntity draftEntity) {
+        private DraftResponse toModel(DraftEntity draftEntity) {
         return modelMapper.map(draftEntity, DraftResponse.class);
     }
 
