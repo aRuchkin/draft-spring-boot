@@ -28,11 +28,11 @@ public class DraftService {
         return toModel(draftRepository.getById(id));
     }
 
-    public Page<DraftResponse> getByPages(Integer index, Integer limit) {
+    public Page<DraftResponse> searchByPartName(Integer index, Integer limit, String partName) {
         // index of page can be null
         // so we will give first (0th) page if index is not set
         PageRequest pageRequest = PageRequest.of(index == null ? 0 : index, limit);
-        Page<DraftEntity> pageOfEntities = draftRepository.findAll(pageRequest);
+        Page<DraftEntity> pageOfEntities = draftRepository.searchByPartName(pageRequest, partName);
         return new PageImpl<>(pageOfEntities.stream().map(this::toModel).collect(Collectors.toList()),
                 pageRequest, pageOfEntities.getTotalElements());
     }

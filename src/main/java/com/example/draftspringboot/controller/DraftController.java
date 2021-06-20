@@ -25,11 +25,12 @@ public class DraftController {
         return draftService.getById(id);
     }
 
-    @Operation(summary = "Get list of something with pagination")
+    @Operation(summary = "Get list of something with pagination and search by part of name")
     @GetMapping()
-    public Page<DraftResponse> getByPages(
+    public Page<DraftResponse> searchByPartName(
             @Parameter(description = "index of page") @RequestParam(required = false) Integer index,
-            @Parameter(description = "number of elements on the page") @RequestParam Integer limit) {
-        return draftService.getByPages(index, limit);
+            @Parameter(description = "number of elements on the page") @RequestParam Integer limit,
+            @Parameter(description = "part of name") @RequestParam(required = false) String partName) {
+        return draftService.searchByPartName(index, limit, partName);
     }
 }
