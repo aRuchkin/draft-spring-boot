@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface DraftRepository extends JpaRepository<DraftEntity, Integer> {
 
-    @Query("select c from DraftEntity c where (:partName is null or lower(c.name) like %:partName%)")
-    Page<DraftEntity> searchByPartName(Pageable pageable, @Param("partName") String partName);
+    @Query("select c from DraftEntity c where (:name is null or lower(c.name) like %:name%)")
+    Page<DraftEntity> searchByName(Pageable pageable, @Param("name") String name);
 
 }

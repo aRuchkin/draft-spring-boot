@@ -2,6 +2,7 @@ package com.example.draftspringboot.controller;
 
 import com.example.draftspringboot.model.DraftResponse;
 import com.example.draftspringboot.service.DraftService;
+import com.example.draftspringboot.utils.PageCreator;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -25,12 +26,12 @@ public class DraftController {
         return draftService.getById(id);
     }
 
-    @Operation(summary = "Get list of something with pagination and search by part of name")
+    @Operation(summary = "Get list of something with pagination and search by name")
     @GetMapping()
-    public Page<DraftResponse> searchByPartName(
-            @Parameter(description = "index of page") @RequestParam(required = false) Integer index,
-            @Parameter(description = "number of elements on the page") @RequestParam Integer limit,
-            @Parameter(description = "part of name") @RequestParam(required = false) String partName) {
-        return draftService.searchByPartName(index, limit, partName);
+    public Page<DraftResponse> searchByName(
+            @Parameter(description = "number of page") @RequestParam(required = false) Integer page,
+            @Parameter(description = "number of elements on the page") @RequestParam(required = false) Integer limit,
+            @Parameter(description = "name or part of name") @RequestParam(required = false) String name) {
+        return draftService.searchByName(PageCreator.createPageable(page, limit), name);
     }
 }

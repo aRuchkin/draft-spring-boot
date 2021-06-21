@@ -28,16 +28,18 @@ public class DraftService {
         return toModel(draftRepository.getById(id));
     }
 
-    public Page<DraftResponse> searchByPartName(Integer index, Integer limit, String partName) {
-        // index of page can be null
-        // so we will give first (0th) page if index is not set
-        PageRequest pageRequest = PageRequest.of(index == null ? 0 : index, limit);
-        Page<DraftEntity> pageOfEntities = draftRepository.searchByPartName(pageRequest, partName);
-        return new PageImpl<>(pageOfEntities.stream().map(this::toModel).collect(Collectors.toList()),
-                pageRequest, pageOfEntities.getTotalElements());
+    public Page<DraftResponse> searchByName(PageRequest pageRequest, String name) {
+        Page<DraftEntity> pageOfEntities =
+                draftRepository.searchByName(pageRequest, name != null ? name.toLowerCase() : null);
+        return pageToPageModel(pageRequest, pageOfEntities);
     }
 
-        private DraftResponse toModel(DraftEntity draftEntity) {
+    private Page<DraftResponse> pageToPageModel(PageRequest pageRequest, Page<DraftEntity> page) {
+        return new PageImpl<>(page.stream().map(this::toModel).collect(Collectors.toList()),
+                pageRequest, page.getTotalElements());
+    }
+
+    private DraftResponse toModel(DraftEntity draftEntity) {
         return modelMapper.map(draftEntity, DraftResponse.class);
     }
 
