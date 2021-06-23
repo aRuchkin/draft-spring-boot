@@ -1,0 +1,1 @@
+insert into cities(id, name) values (1, 'test-city');
