@@ -14,9 +14,6 @@ public class PageCreator {
             }
             return createPageable(defaultNumberOfPage, limit.intValue());
         }
-        if (page != null) {
-            return createPageable(page.intValue(), defaultRowLimit);
-        }
         return createPageable(defaultNumberOfPage, defaultRowLimit);
     }
 
