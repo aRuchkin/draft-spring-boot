@@ -2,15 +2,12 @@ package com.example.draftspringboot.controller;
 
 import com.example.draftspringboot.model.DraftResponse;
 import com.example.draftspringboot.service.DraftService;
+import com.example.draftspringboot.utils.PageCreator;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.web.bind.annotation.*;
 
 @Tag(name="Draft controller", description="Controller for example")
 @RestController
@@ -29,9 +26,12 @@ public class DraftController {
         return draftService.getById(id);
     }
 
-    @GetMapping
-    public List<DraftResponse> getAll() {
-        return draftService.getAll();
+    @Operation(summary = "Get list of something with pagination and search by name")
+    @GetMapping()
+    public Page<DraftResponse> searchByName(
+            @Parameter(description = "number of page") @RequestParam(required = false) Integer page,
+            @Parameter(description = "number of elements on the page") @RequestParam(required = false) Integer limit,
+            @Parameter(description = "name or part of name") @RequestParam(required = false) String name) {
+        return draftService.searchByName(PageCreator.createPageable(page, limit), name);
     }
-
 }
