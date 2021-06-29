@@ -22,7 +22,7 @@ dependencies {
 	implementation group: 'io.swagger.core.v3', name: 'swagger-annotations', version: '2.1.9'
 	implementation group: 'org.springdoc', name: 'springdoc-openapi-ui', version: '1.5.9'
 	testImplementation group: 'com.h2database', name: 'h2', version: '1.4.200'
-
+	implementation group: 'org.slf4j', name: 'slf4j-ext', version: '1.7.31'
 
 }
 

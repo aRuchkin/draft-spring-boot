@@ -43,6 +43,10 @@ public class DraftService {
         return modelMapper.map(draftEntity, DraftResponse.class);
     }
 
+    public DraftEntity toEntity(DraftResponse draftResponse) {
+        return modelMapper.map(draftResponse, DraftEntity.class);
+    }
+
     public String getSomeString() {
         return "SomeString";
     }

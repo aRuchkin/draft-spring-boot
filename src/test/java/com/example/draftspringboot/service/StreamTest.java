@@ -1,19 +1,19 @@
 package com.example.draftspringboot.service;
 
-import com.example.draftspringboot.model.DraftClassListOfString;
 import com.example.draftspringboot.model.Gender;
 import com.example.draftspringboot.model.Person;
-import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.*;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import static java.util.stream.Collectors.*;
+import static java.util.stream.Collectors.averagingInt;
+import static java.util.stream.Collectors.groupingBy;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -26,7 +26,7 @@ public class StreamTest {
      */
     @Test
     public void TransformationCollectionTest() {
-        List<String> result = createInputListForTransformationTest()
+        List<String> result = TestUtils.createListOfSomeListsOfStrings(3)
                 .stream()
                 .flatMap(p -> p.getSomeField().stream())
                 .collect(Collectors.toList());
@@ -74,22 +74,4 @@ public class StreamTest {
                 ? Gender.FEMALE : Gender.MALE;
     }
 
-    /**
-     * @return List of DraftClassListOfString
-     * (DraftClassListOfString is List of strings)
-     */
-    private List<DraftClassListOfString> createInputListForTransformationTest() {
-        return IntStream.range(0, 3)
-                .mapToObj(o -> new DraftClassListOfString(createListOfSomeStrings()))
-                .collect(Collectors.toList());
-    }
-
-    /**
-     * @return List of random strings
-     */
-    private List<String> createListOfSomeStrings() {
-        return IntStream.range(0, 3)
-                .mapToObj(o -> RandomStringUtils.randomAlphabetic(16))
-                .collect(Collectors.toList());
-    }
 }
