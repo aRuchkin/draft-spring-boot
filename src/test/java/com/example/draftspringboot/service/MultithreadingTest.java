@@ -17,7 +17,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.stream.Collectors;
 
 import static org.springframework.test.context.jdbc.SqlConfig.TransactionMode.ISOLATED;
 
@@ -66,12 +65,10 @@ public class MultithreadingTest {
     }
 
     private void transformModelsToEntitiesAndSave(List<DraftResponse> list) {
-        list.stream().map(
-                m -> {
-                    logger.info("Collection is processing in the thread: " + Thread.currentThread().getName());
-                    return draftRepository.save(draftService.toEntity(m));
-                })
-                .collect(Collectors.toList());
+        for(DraftResponse element : list) {
+            logger.info("Collection is processing in the thread: " + Thread.currentThread().getName());
+            draftRepository.save(draftService.toEntity(element));
+        }
     }
 
 }
