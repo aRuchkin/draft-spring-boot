@@ -32,6 +32,8 @@ public class MultithreadingTest {
     @Autowired
     private DraftRepository draftRepository;
 
+
+    // TODO This test doesn't work... (but it works as a service)
     @Test
     @Transactional
     @Sql(scripts = {"/sql/clean-draft-entity.sql"},
